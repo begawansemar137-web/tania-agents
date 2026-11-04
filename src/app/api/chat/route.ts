@@ -57,6 +57,22 @@ export async function POST(req: Request) {
   });
 
   return createUIMessageStreamResponse({
-    stream: toUIMessageStream({ stream: result.stream }),
+    stream: toUIMessageStream({ stream: result.stream, onError: describeError }),
   });
+}
+
+// Log the real error server-side; send the user a safe, actionable message.
+function describeError(error: unknown) {
+  const message = error instanceof Error ? error.message : String(error);
+  console.error("[api/chat]", message);
+  if (/credit card/i.test(message)) {
+    return "AI Gateway belum aktif: tambahkan kartu kredit di dashboard Vercel (AI Gateway) untuk membuka kredit gratis.";
+  }
+  if (/unauthorized|invalid api key|authentication/i.test(message)) {
+    return "Kunci AI Gateway tidak valid. Periksa AI_GATEWAY_API_KEY.";
+  }
+  if (/rate limit|429/i.test(message)) {
+    return "Terlalu banyak permintaan ke model. Coba lagi sebentar lagi.";
+  }
+  return "Model gagal menjawab. Coba lagi, atau pilih model lain di panel Konfigurasi.";
 }

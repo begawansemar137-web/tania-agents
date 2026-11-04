@@ -16,8 +16,9 @@ function jsonError(status: number, message: string) {
 }
 
 export async function POST(req: Request) {
-  // AI Gateway authenticates with AI_GATEWAY_API_KEY locally, or OIDC when deployed on Vercel.
-  if (!process.env.AI_GATEWAY_API_KEY && !process.env.VERCEL_OIDC_TOKEN) {
+  // AI Gateway authenticates with AI_GATEWAY_API_KEY, or with OIDC. On Vercel (VERCEL=1) the OIDC
+  // token arrives per request; locally `vercel env pull` writes VERCEL_OIDC_TOKEN to .env.local.
+  if (!process.env.AI_GATEWAY_API_KEY && !process.env.VERCEL && !process.env.VERCEL_OIDC_TOKEN) {
     return jsonError(503, "Model belum terhubung. Isi AI_GATEWAY_API_KEY di file .env.local, lalu jalankan ulang server.");
   }
 

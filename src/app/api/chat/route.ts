@@ -1,5 +1,6 @@
 import { convertToModelMessages, createUIMessageStreamResponse, streamText, toUIMessageStream, type UIMessage } from "ai";
-import { getAgent, models } from "@/lib/data";
+import { getAgent } from "@/lib/data";
+import { hasModelHubKey, modelhub, resolveModel } from "@/lib/modelhub";
 
 const MAX_MESSAGES = 30;
 const MAX_INSTRUCTIONS = 4000;
@@ -16,10 +17,8 @@ function jsonError(status: number, message: string) {
 }
 
 export async function POST(req: Request) {
-  // AI Gateway authenticates with AI_GATEWAY_API_KEY, or with OIDC. On Vercel (VERCEL=1) the OIDC
-  // token arrives per request; locally `vercel env pull` writes VERCEL_OIDC_TOKEN to .env.local.
-  if (!process.env.AI_GATEWAY_API_KEY && !process.env.VERCEL && !process.env.VERCEL_OIDC_TOKEN) {
-    return jsonError(503, "Model belum terhubung. Isi AI_GATEWAY_API_KEY di file .env.local, lalu jalankan ulang server.");
+  if (!hasModelHubKey()) {
+    return jsonError(503, "Model belum terhubung. Isi MODELHUB_API_KEY (kunci ModelHub) di environment, lalu jalankan ulang server.");
   }
 
   let body: ChatBody;
@@ -33,8 +32,15 @@ export async function POST(req: Request) {
   if (!agent) return jsonError(404, "Agen tidak ditemukan.");
   if (!Array.isArray(body.messages) || body.messages.length === 0) return jsonError(400, "Tidak ada pesan.");
 
-  // Only allow models from the server-side list; fall back to the agent's saved model.
-  const model = body.model && models.includes(body.model) ? body.model : agent.model;
+  // Only allow models the ModelHub key exposes; fall back to the agent's model, then the default.
+  let model: string | undefined;
+  try {
+    model = await resolveModel(body.model, agent.model);
+  } catch (error) {
+    console.error("[api/chat]", error instanceof Error ? error.message : error);
+    return jsonError(502, describeError(error));
+  }
+  if (!model) return jsonError(503, "Kunci ModelHub belum punya akses ke model apa pun.");
   const custom = (body.instructions ?? agent.instructions).slice(0, MAX_INSTRUCTIONS);
 
   const toolList = agent.tools
@@ -51,7 +57,7 @@ export async function POST(req: Request) {
   ].join("\n\n");
 
   const result = streamText({
-    model,
+    model: modelhub.chatModel(model),
     instructions,
     messages: await convertToModelMessages(body.messages.slice(-MAX_MESSAGES)),
   });
@@ -65,11 +71,11 @@ export async function POST(req: Request) {
 function describeError(error: unknown) {
   const message = error instanceof Error ? error.message : String(error);
   console.error("[api/chat]", message);
-  if (/credit card/i.test(message)) {
-    return "AI Gateway belum aktif: tambahkan kartu kredit di dashboard Vercel (AI Gateway) untuk membuka kredit gratis.";
+  if (/unauthorized|invalid api key|authentication|auth_error|401/i.test(message)) {
+    return "Kunci ModelHub tidak valid. Periksa MODELHUB_API_KEY.";
   }
-  if (/unauthorized|invalid api key|authentication/i.test(message)) {
-    return "Kunci AI Gateway tidak valid. Periksa AI_GATEWAY_API_KEY.";
+  if (/budget|quota|exceeded/i.test(message)) {
+    return "Batas anggaran atau kuota kunci ModelHub sudah habis.";
   }
   if (/rate limit|429/i.test(message)) {
     return "Terlalu banyak permintaan ke model. Coba lagi sebentar lagi.";

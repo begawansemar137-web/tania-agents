@@ -75,7 +75,7 @@ export default function Home() {
               <span className="text-lg">📞</span>
               <div>
                 <p className="text-sm font-medium">Sari — Persiapan Sales</p>
-                <p className="text-xs text-muted">anthropic/claude-sonnet-5.5 · Slack, Web</p>
+                <p className="text-xs text-muted">ModelHub · Slack, Web</p>
               </div>
             </div>
             <div className="space-y-3 text-sm">

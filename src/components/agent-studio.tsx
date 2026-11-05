@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { useChat } from "@ai-sdk/react";
 import { ArrowLeft, Send, Loader2, Square, RotateCcw } from "lucide-react";
 import type { Agent, Permission, ToolAccess } from "@/lib/data";
-import { models, usd } from "@/lib/data";
+import { AUTO_MODEL, usd } from "@/lib/data";
 import { Badge, btnPrimary, btnGhost } from "./ui";
 
 function readError(error: Error) {
@@ -26,6 +26,17 @@ export function AgentStudio({ agent }: { agent: Agent }) {
   const [tools, setTools] = useState<ToolAccess[]>(agent.tools);
   const [saved, setSaved] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
+  const [available, setAvailable] = useState<string[] | null>(null);
+
+  // Models come from the ModelHub key on the server, so the picker matches what the key can use.
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/models")
+      .then((r) => r.json() as Promise<{ models?: string[] }>)
+      .then((d) => alive && setAvailable(d.models ?? []))
+      .catch(() => alive && setAvailable([]));
+    return () => { alive = false; };
+  }, []);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -147,8 +158,13 @@ export function AgentStudio({ agent }: { agent: Agent }) {
                 <div>
                   <label htmlFor="model" className="text-xs font-medium text-muted">Model</label>
                   <select id="model" value={model} onChange={(e) => { setModel(e.target.value); setSaved(false); }} className="mt-1 w-full rounded-lg border border-line bg-bg px-3 py-2 font-mono text-sm">
-                    {models.map((m) => <option key={m}>{m}</option>)}
+                    <option value={AUTO_MODEL}>auto (default ModelHub)</option>
+                    {model !== AUTO_MODEL && !available?.includes(model) && <option value={model}>{model}</option>}
+                    {available?.map((m) => <option key={m} value={m}>{m}</option>)}
                   </select>
+                  <p className="mt-1 text-xs text-muted">
+                    {available === null ? "Memuat daftar model…" : available.length ? `${available.length} model tersedia dari ModelHub.` : "Daftar model belum tersedia. Periksa MODELHUB_API_KEY."}
+                  </p>
                 </div>
                 <div>
                   <label htmlFor="instr" className="text-xs font-medium text-muted">Instruksi</label>

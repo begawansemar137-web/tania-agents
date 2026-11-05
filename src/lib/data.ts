@@ -30,7 +30,7 @@ export const agents: Agent[] = [
     name: "Sari — Persiapan Sales",
     role: "Menyiapkan ringkasan prospek sebelum setiap panggilan penjualan.",
     emoji: "📞",
-    model: "anthropic/claude-sonnet-5.5",
+    model: "auto",
     owner: "Henri S.",
     channels: ["Web", "Slack"],
     instructions:
@@ -59,7 +59,7 @@ export const agents: Agent[] = [
     name: "Raka — Pantau Kompetitor",
     role: "Merangkum berita & perubahan harga kompetitor setiap Senin pagi.",
     emoji: "🔭",
-    model: "anthropic/claude-haiku-5.5",
+    model: "auto",
     owner: "Dewi A.",
     channels: ["Web", "Telegram"],
     instructions:
@@ -84,7 +84,7 @@ export const agents: Agent[] = [
     name: "Nadia — Lead Masuk",
     role: "Meriset, mengkualifikasi, dan membalas setiap lead baru.",
     emoji: "📥",
-    model: "anthropic/claude-sonnet-5.5",
+    model: "auto",
     owner: "Budi P.",
     channels: ["Web", "WhatsApp"],
     instructions:
@@ -106,7 +106,7 @@ export const agents: Agent[] = [
     name: "Tari — Onboarding HR",
     role: "Menjawab pertanyaan karyawan baru tentang kebijakan & administrasi.",
     emoji: "🧭",
-    model: "google/gemini-3.8-flash",
+    model: "auto",
     owner: "Sinta R.",
     channels: ["Web"],
     instructions:
@@ -163,7 +163,7 @@ export const runs: Run[] = [
         { name: "gmail.search", kind: "tool", ms: 1210, detail: "6 email terkait dalam 30 hari terakhir" },
         { name: "hubspot.get_deal", kind: "tool", ms: 830, detail: "Deal: Rp 420jt, tahap Negosiasi" },
         { name: "web_search", kind: "tool", ms: 3900, detail: "3 berita: ekspansi gudang Surabaya" },
-        { name: "LLM: tulis brief", kind: "llm", ms: 9800, tokens: 11200, detail: "anthropic/claude-sonnet-5.5 · 10 poin" },
+        { name: "LLM: tulis brief", kind: "llm", ms: 9800, tokens: 11200, detail: "ModelHub · 10 poin" },
         { name: "slack.post_message", kind: "tool", ms: 420, detail: "#sales · terkirim" },
       ] },
     ],
@@ -243,14 +243,8 @@ export const templates = [
   { name: "Triase tiket support", emoji: "🎧", desc: "Kategorikan dan jawab tiket umum." },
 ];
 
-export const models = [
-  "anthropic/claude-opus-5.5",
-  "anthropic/claude-sonnet-5.5",
-  "anthropic/claude-haiku-5.5",
-  "openai/gpt-6.1-sol",
-  "google/gemini-3.8-flash",
-  "google/gemma-4-31b-it",
-];
+// "auto" = the ModelHub default (MODELHUB_DEFAULT_MODEL, or the first model the key can use).
+export const AUTO_MODEL = "auto";
 
 export function getAgent(id: string) {
   return agents.find((a) => a.id === id);

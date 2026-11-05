@@ -25,13 +25,13 @@ Buka http://localhost:3000.
 
 ## Menghubungkan model AI
 
-Chat di Studio agen memakai [AI SDK](https://ai-sdk.dev) lewat [Vercel AI Gateway](https://vercel.com/ai-gateway) (route `src/app/api/chat/route.ts`).
+Chat di Studio agen memakai [AI SDK](https://ai-sdk.dev) dengan ModelHub (`https://api-modelhub.aiplayground.id`), proxy LiteLLM yang kompatibel dengan OpenAI. Kodenya ada di `src/lib/modelhub.ts` dan `src/app/api/chat/route.ts`.
 
-1. Buat API key di dashboard Vercel → AI Gateway.
-2. `cp .env.example .env.local`, lalu isi `AI_GATEWAY_API_KEY`.
+1. Minta kunci API ModelHub ke admin ModelHub.
+2. `cp .env.example .env.local`, lalu isi `MODELHUB_API_KEY`. Isi `MODELHUB_DEFAULT_MODEL` bila perlu.
 3. Jalankan ulang `npm run dev`.
 
-Saat di-deploy ke Vercel, autentikasi memakai OIDC otomatis, jadi kunci tidak wajib. Model yang boleh dipilih dibatasi oleh daftar `models` di `src/lib/data.ts`. Instruksi dan model dari panel kanan ikut terkirim, jadi perubahan langsung bisa dicoba sebelum disimpan. Integrasi (Gmail, HubSpot, dan lainnya) belum tersambung sebagai tool. Agen diberi tahu hal ini agar tidak mengarang hasil.
+Di Vercel, tambahkan variabel yang sama di Project Settings → Environment Variables, lalu deploy ulang. Daftar model diambil dari `GET /v1/models` memakai kunci tersebut (route `/api/models`, disimpan 5 menit), jadi pilihan model di panel Konfigurasi selalu sesuai akses kunci. Agen bawaan memakai model `auto`, yaitu `MODELHUB_DEFAULT_MODEL` atau model pertama yang tersedia. Server menolak model di luar daftar itu. Instruksi dan model dari panel kanan ikut terkirim, jadi perubahan langsung bisa dicoba sebelum disimpan. Integrasi (Gmail, HubSpot, dan lainnya) belum tersambung sebagai tool. Agen diberi tahu hal ini agar tidak mengarang hasil.
 
 ## Status
 

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight, BarChart3, Briefcase, CalendarCheck, ChevronDown, ChevronRight, CircleCheck, Code2, Database,
   FileText, Headphones, Headset, LayoutGrid, List, Megaphone, MessageSquare, Search, Settings, ShieldCheck,
@@ -114,6 +114,14 @@ export function AgentCatalog() {
   const [category, setCategory] = useState<CatalogCategory | "all">("all");
   const [view, setView] = useState<"grid" | "list">("grid");
   const [sort, setSort] = useState<SortKey>("populer");
+
+  // Links from /solusi open the catalog on a category via ?kategori=. Read it after mount so /app stays static.
+  useEffect(() => {
+    const param = new URLSearchParams(window.location.search).get("kategori");
+    const match = catalogCategories.find((c) => c === param);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time sync from the URL on mount
+    if (match) setCategory(match);
+  }, []);
 
   const shown = useMemo(() => {
     const q = query.trim().toLowerCase();

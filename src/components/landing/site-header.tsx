@@ -17,9 +17,9 @@ const nav: NavItem[] = [
   {
     label: "Solusi",
     children: [
-      { label: "Sales & pemasaran", href: "#kategori", desc: "Riset prospek dan follow-up" },
-      { label: "HR & operasional", href: "#kategori", desc: "Onboarding dan proses internal" },
-      { label: "Layanan pelanggan", href: "#kategori", desc: "Triase dan jawab tiket" },
+      { label: "Semua solusi", href: "/solusi", desc: "Solusi AI Agent untuk enterprise" },
+      { label: "Per industri", href: "/solusi#industri", desc: "Pemerintahan, keuangan, manufaktur, dll." },
+      { label: "Katalog solusi", href: "/solusi#katalog", desc: "CX, operasional, data, HR, finance" },
     ],
   },
   { label: "Use Case", href: "#template" },

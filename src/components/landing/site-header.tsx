@@ -22,7 +22,7 @@ const nav: NavItem[] = [
       { label: "Katalog solusi", href: "/solusi#katalog", desc: "CX, operasional, data, HR, finance" },
     ],
   },
-  { label: "Use Case", href: "#template" },
+  { label: "Use Case", href: "/use-case" },
   { label: "Developer", href: "/app/integrations" },
   {
     label: "Resources",

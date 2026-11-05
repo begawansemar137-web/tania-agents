@@ -1,11 +1,28 @@
 import Link from "next/link";
 import {
   MessageSquare, Users, Eye, ShieldCheck, Lock, Receipt, Server, Sparkles,
-  CalendarClock, Monitor, Plug, Network, ArrowRight,
+  CalendarClock, Monitor, Plug, Network, ArrowRight, PlayCircle, Zap, FileText, Share2, CheckCircle2,
 } from "lucide-react";
 import { Logo } from "@/components/brand";
-import { btnPrimary, btnGhost } from "@/components/ui";
+import { SiteHeader } from "@/components/landing/site-header";
+import { Robot } from "@/components/landing/robot";
+import { AgentCategories } from "@/components/landing/agent-categories";
+import { DashboardMock, OfficeTower } from "@/components/landing/dashboard-mock";
 import { templates } from "@/lib/data";
+
+const heroFeatures = [
+  { icon: Zap, title: "Otomasi Pekerjaan", desc: "Jalankan proses bisnis end-to-end", offset: "xl:ml-2" },
+  { icon: FileText, title: "Asisten Cerdas", desc: "Dukung analisis, riset, dan keputusan", offset: "xl:ml-9" },
+  { icon: Share2, title: "Terintegrasi", desc: "Terhubung dengan data, aplikasi, dan sistem", offset: "xl:ml-5" },
+  { icon: ShieldCheck, title: "Aman & Terkendali", desc: "Governance, akses, dan audit yang lengkap", offset: "xl:ml-0" },
+];
+
+const whyList = [
+  "Bangun agent tanpa kompleksitas",
+  "Otomasi proses bisnis dan operasional",
+  "Terhubung dengan sistem perusahaan",
+  "Siap digunakan lintas unit dan industri",
+];
 
 const principles = [
   { icon: Users, title: "Multiplayer sejak awal", desc: "Undang tim atau klien, atur peran, dan bagikan agen serta sesi obrolan." },
@@ -33,83 +50,94 @@ const steps = [
 
 export default function Home() {
   return (
-    <div className="flex flex-col">
-      <header className="sticky top-0 z-30 border-b border-line bg-bg/85 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-          <Logo />
-          <nav className="hidden items-center gap-6 text-sm text-muted md:flex">
-            <a href="#fitur" className="hover:text-ink">Fitur</a>
-            <a href="#cara-kerja" className="hover:text-ink">Cara kerja</a>
-            <a href="#template" className="hover:text-ink">Template</a>
-          </nav>
-          <Link href="/app" className={btnPrimary}>Buka aplikasi</Link>
-        </div>
-      </header>
+    <div className="flex flex-col overflow-x-clip">
+      <SiteHeader />
 
       <main>
         {/* Hero */}
-        <section className="mx-auto grid max-w-6xl items-center gap-12 px-4 pt-16 pb-20 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:pt-24">
-          <div>
-            <h1 className="text-4xl leading-[1.08] font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">
-              Rekan kerja AI untuk tim Anda, dibuat cukup dengan mengobrol.
-            </h1>
-            <p className="mt-5 max-w-xl text-lg text-muted text-pretty">
-              TANIA-Agents adalah workspace tempat tim membangun agen spesialis untuk sales, HR, keuangan, support, dan operasional.
-              Bagikan ke tim, ajak ngobrol di Slack atau WhatsApp, dan pantau setiap langkahnya.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/app" className={`${btnPrimary} px-5 py-2.5`}>
-                Mulai bangun agen <ArrowRight size={16} />
-              </Link>
-              <a href="#cara-kerja" className={`${btnGhost} px-5 py-2.5`}>Lihat cara kerja</a>
+        <section className="relative isolate">
+          <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[radial-gradient(70%_90%_at_62%_20%,var(--hero-glow),transparent_70%)]" />
+          <div aria-hidden="true" className="absolute top-[-12%] left-[48%] -z-10 hidden h-[620px] w-[620px] rounded-full border-[40px] border-accent-2/10 lg:block" />
+          <div className="mx-auto grid max-w-[1440px] gap-10 px-4 pt-10 pb-8 sm:px-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.15fr)] lg:px-10 lg:pt-8">
+            <div className="lg:pt-6">
+              <p className="inline-flex rounded-lg bg-accent-soft px-3.5 py-1.5 text-sm font-semibold text-accent">TANIA Platform</p>
+              <h1 className="mt-4 text-5xl leading-[1.02] font-extrabold tracking-tight sm:text-6xl xl:text-7xl">
+                TANIA <span className="bg-gradient-to-r from-accent to-accent-2 bg-clip-text text-transparent">Agents</span>
+              </h1>
+              <p className="mt-5 max-w-2xl text-2xl leading-snug font-bold sm:text-[28px]">
+                Platform AI Agent Enterprise untuk <br className="hidden sm:block" />
+                Co-working, Automasi, dan Produktivitas.
+              </p>
+              <p className="mt-4 max-w-xl text-lg text-muted text-pretty">
+                Bangun, kelola, dan jalankan AI Agent untuk berbagai kebutuhan bisnis dengan aman, terintegrasi, dan siap skala.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-4">
+                <Link href="/app" className="inline-flex items-center gap-2 rounded-lg bg-accent px-8 py-3.5 text-[17px] font-semibold text-surface shadow-[0_12px_30px_-12px_rgba(74,47,208,0.8)] hover:bg-accent-strong">
+                  Mulai Gratis <ArrowRight size={18} />
+                </Link>
+                <Link href="/app/agents/sales-prep" className="inline-flex items-center gap-2 rounded-lg border border-line bg-surface px-8 py-3.5 text-[17px] font-semibold hover:border-accent">
+                  <PlayCircle size={20} /> Lihat Demo
+                </Link>
+              </div>
+            </div>
+
+            <div className="grid items-center gap-6 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+              <Robot className="mx-auto w-full max-w-[300px] drop-shadow-xl sm:max-w-none" />
+              <ul className="space-y-3">
+                {heroFeatures.map(({ icon: Icon, title, desc, offset }) => (
+                  <li key={title} className={`flex items-center gap-3.5 rounded-xl border border-line bg-surface/90 px-4 py-3.5 shadow-[0_12px_32px_-22px_rgba(40,20,120,0.5)] backdrop-blur ${offset}`}>
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent-soft text-accent"><Icon size={22} strokeWidth={1.8} /></span>
+                    <span>
+                      <span className="block text-[17px] font-bold">{title}</span>
+                      <span className="block text-sm text-muted">{desc}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
 
-          {/* Product preview */}
-          <div className="rounded-2xl border border-line bg-surface p-4 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.25)]">
-            <div className="mb-3 flex items-center gap-2 border-b border-line pb-3">
-              <span className="text-lg">📞</span>
-              <div>
-                <p className="text-sm font-medium">Sari — Persiapan Sales</p>
-                <p className="text-xs text-muted">ModelHub · Slack, Web</p>
-              </div>
-            </div>
-            <div className="space-y-3 text-sm">
-              <div className="ml-auto max-w-[85%] rounded-xl rounded-br-sm bg-accent px-3 py-2 text-surface">
-                Siapkan brief untuk demo jam 10 dengan PT Sinar Logistik.
-              </div>
-              <div className="space-y-1.5 rounded-lg border border-line bg-surface-2 p-2.5 font-mono text-xs text-muted">
-                <p>✓ google_calendar.list_events <span className="float-right">0,6 dtk</span></p>
-                <p>✓ gmail.search · 6 email <span className="float-right">1,2 dtk</span></p>
-                <p>✓ hubspot.get_deal · Negosiasi <span className="float-right">0,8 dtk</span></p>
-                <p>✓ web_search · 3 berita <span className="float-right">3,9 dtk</span></p>
-              </div>
-              <div className="max-w-[90%] rounded-xl rounded-bl-sm border border-line px-3 py-2">
-                <p className="font-medium">Brief: PT Sinar Logistik</p>
-                <ul className="mt-1 list-disc space-y-0.5 pl-4 text-muted">
-                  <li>Deal Rp 420 jt, tahap negosiasi</li>
-                  <li>Baru ekspansi gudang di Surabaya</li>
-                  <li>Keberatan terakhir: integrasi WMS</li>
+          <div className="mx-auto max-w-[1440px] px-4 pb-14 sm:px-6 lg:px-10">
+            <AgentCategories />
+          </div>
+        </section>
+
+        {/* What is TANIA Agents */}
+        <section className="mx-auto max-w-[1440px] px-4 pb-20 sm:px-6 lg:px-10">
+          <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-accent-soft via-surface-2 to-hero-glow px-6 pt-10 sm:px-10 lg:pt-12">
+            <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.3fr)] xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.25fr)_minmax(0,0.6fr)]">
+              <div className="self-start pb-2 lg:pb-12">
+                <p className="inline-flex rounded-lg bg-surface/70 px-3 py-1 text-sm font-medium">
+                  Apa itu&nbsp;<span className="font-bold text-accent">TANIA Agents</span>?
+                </p>
+                <h2 className="mt-4 text-3xl leading-tight font-extrabold tracking-tight sm:text-4xl">AI Agent untuk Bisnis yang Nyata</h2>
+                <p className="mt-4 text-[17px] text-muted">
+                  Platform <span className="font-semibold text-ink">enterprise</span> untuk membangun dan menjalankan <span className="font-semibold text-ink">AI Agent</span> yang dapat berpikir, beraksi, dan berkolaborasi secara mandiri.
+                </p>
+                <ul className="mt-6 space-y-3">
+                  {whyList.map((x) => (
+                    <li key={x} className="flex items-center gap-3 text-[16px]">
+                      <CheckCircle2 size={22} className="shrink-0 fill-accent text-surface" aria-hidden="true" /> {x}
+                    </li>
+                  ))}
                 </ul>
               </div>
-              <div className="flex items-center justify-between rounded-lg bg-warn-soft px-3 py-2 text-xs text-warn">
-                <span>Perbarui catatan deal di HubSpot?</span>
-                <span className="font-medium">Butuh persetujuan</span>
-              </div>
+              <DashboardMock />
+              <OfficeTower className="hidden h-full max-h-[420px] w-full self-end xl:block" />
             </div>
           </div>
         </section>
 
         {/* Principles */}
         <section className="border-y border-line bg-surface">
-          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-            <h2 className="max-w-2xl text-3xl font-semibold tracking-tight">Dibuat untuk kerja profesional, bukan sekadar asisten pribadi.</h2>
+          <div className="mx-auto max-w-[1440px] px-4 py-16 sm:px-6 lg:px-10">
+            <h2 className="max-w-2xl text-3xl font-extrabold tracking-tight">Dibuat untuk kerja profesional, bukan sekadar asisten pribadi.</h2>
             <div className="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
               {principles.map(({ icon: Icon, title, desc }) => (
                 <div key={title} className="flex gap-3">
                   <Icon size={20} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
                   <div>
-                    <h3 className="font-medium">{title}</h3>
+                    <h3 className="font-bold">{title}</h3>
                     <p className="mt-1 text-sm text-muted">{desc}</p>
                   </div>
                 </div>
@@ -119,14 +147,14 @@ export default function Home() {
         </section>
 
         {/* How it works */}
-        <section id="cara-kerja" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-20 sm:px-6">
-          <h2 className="text-3xl font-semibold tracking-tight">Tanpa diagram alur. Cukup jelaskan pekerjaannya.</h2>
+        <section id="cara-kerja" className="mx-auto max-w-[1440px] scroll-mt-20 px-4 py-20 sm:px-6 lg:px-10">
+          <h2 className="text-3xl font-extrabold tracking-tight">Tanpa diagram alur. Cukup jelaskan pekerjaannya.</h2>
           <p className="mt-3 max-w-2xl text-muted">Agen menentukan langkahnya sendiri. Anda menentukan batasannya.</p>
           <ol className="mt-10 grid gap-6 md:grid-cols-3">
             {steps.map((s) => (
               <li key={s.n} className="rounded-xl border border-line bg-surface p-6">
                 <span className="grid h-8 w-8 place-items-center rounded-full bg-accent-soft font-mono text-sm font-semibold text-accent-strong">{s.n}</span>
-                <h3 className="mt-4 font-medium">{s.title}</h3>
+                <h3 className="mt-4 font-bold">{s.title}</h3>
                 <p className="mt-1.5 text-sm text-muted">{s.desc}</p>
               </li>
             ))}
@@ -135,13 +163,13 @@ export default function Home() {
 
         {/* Features */}
         <section id="fitur" className="scroll-mt-20 border-t border-line">
-          <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-            <h2 className="text-3xl font-semibold tracking-tight">Semua yang dibutuhkan rekan kerja AI</h2>
+          <div className="mx-auto max-w-[1440px] px-4 py-20 sm:px-6 lg:px-10">
+            <h2 className="text-3xl font-extrabold tracking-tight">Semua yang dibutuhkan rekan kerja AI</h2>
             <div className="mt-10 grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
               {features.map(({ icon: Icon, title, desc }) => (
                 <div key={title} className="bg-surface p-6">
                   <Icon size={20} className="text-accent" aria-hidden="true" />
-                  <h3 className="mt-4 font-medium">{title}</h3>
+                  <h3 className="mt-4 font-bold">{title}</h3>
                   <p className="mt-1.5 text-sm text-muted">{desc}</p>
                 </div>
               ))}
@@ -151,14 +179,14 @@ export default function Home() {
 
         {/* Templates */}
         <section id="template" className="scroll-mt-20 border-t border-line bg-surface">
-          <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-            <h2 className="text-3xl font-semibold tracking-tight">Mulai dari template</h2>
+          <div className="mx-auto max-w-[1440px] px-4 py-20 sm:px-6 lg:px-10">
+            <h2 className="text-3xl font-extrabold tracking-tight">Mulai dari template</h2>
             <p className="mt-3 text-muted">Sesuaikan lewat chat dalam hitungan menit.</p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {templates.map((t) => (
                 <Link key={t.name} href="/app" className="group rounded-xl border border-line p-5 transition-colors hover:border-accent">
                   <span className="text-2xl">{t.emoji}</span>
-                  <h3 className="mt-3 font-medium group-hover:text-accent">{t.name}</h3>
+                  <h3 className="mt-3 font-bold group-hover:text-accent">{t.name}</h3>
                   <p className="mt-1 text-sm text-muted">{t.desc}</p>
                 </Link>
               ))}
@@ -168,9 +196,9 @@ export default function Home() {
       </main>
 
       <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-4 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-10">
           <Logo />
-          <p>© 2026 TANIA-Agents.</p>
+          <p>© 2026 TANIA Agents.</p>
         </div>
       </footer>
     </div>

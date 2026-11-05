@@ -1,16 +1,18 @@
 @import "tailwindcss";
 
-/* TANIA-Agents design tokens — warm paper neutrals + deep teal accent */
+/* TANIA Agents design tokens: cool lavender neutrals + indigo-violet accent */
 :root {
-  --bg: #f7f6f2;
+  --bg: #f8f7fc;
   --surface: #ffffff;
-  --surface-2: #f0eee8;
-  --border: #e3e0d7;
-  --text: #1c1b18;
-  --muted: #6b675d;
-  --accent: #0f766e;
-  --accent-strong: #0b5c55;
-  --accent-soft: #dff1ee;
+  --surface-2: #f1effa;
+  --border: #e4e1f2;
+  --text: #15132e;
+  --muted: #5d5a78;
+  --accent: #4a2fd0;
+  --accent-strong: #3a21ad;
+  --accent-soft: #ece8fd;
+  --accent-2: #7b4dff;
+  --hero-glow: #e3dbff;
   --warn: #b45309;
   --warn-soft: #fdf0dc;
   --danger: #b91c1c;
@@ -21,15 +23,17 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #12130f;
-    --surface: #1a1b17;
-    --surface-2: #23241f;
-    --border: #33342d;
-    --text: #ecebe5;
-    --muted: #a19e93;
-    --accent: #2dd4bf;
-    --accent-strong: #5eead4;
-    --accent-soft: #143a36;
+    --bg: #0e0d1a;
+    --surface: #17162a;
+    --surface-2: #201e37;
+    --border: #2f2c4d;
+    --text: #edecf8;
+    --muted: #a5a1c4;
+    --accent: #8f7dff;
+    --accent-strong: #b3a8ff;
+    --accent-soft: #29244f;
+    --accent-2: #a98bff;
+    --hero-glow: #2a2356;
     --warn: #fbbf24;
     --warn-soft: #3a2e12;
     --danger: #f87171;
@@ -49,20 +53,22 @@
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
   --color-accent-soft: var(--accent-soft);
+  --color-accent-2: var(--accent-2);
+  --color-hero-glow: var(--hero-glow);
   --color-warn: var(--warn);
   --color-warn-soft: var(--warn-soft);
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
   --color-ok: var(--ok);
   --color-ok-soft: var(--ok-soft);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-jakarta);
   --font-mono: var(--font-geist-mono);
 }
 
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-jakarta), system-ui, sans-serif;
 }
 
 :focus-visible {

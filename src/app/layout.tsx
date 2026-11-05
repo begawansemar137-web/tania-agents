@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const jakarta = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TANIA-Agents — Workspace agen AI untuk tim Anda",
+  title: "TANIA Agents — Platform AI Agent Enterprise",
   description:
-    "Bangun rekan kerja AI cukup dengan mengobrol. Bagikan ke tim, jalankan otomatis, dan pantau setiap langkahnya.",
+    "Bangun, kelola, dan jalankan AI Agent untuk berbagai kebutuhan bisnis dengan aman, terintegrasi, dan siap skala.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="id" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="id" className={`${jakarta.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

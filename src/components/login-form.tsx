@@ -118,7 +118,7 @@ export function LoginForm() {
 
       <p className="mt-7 text-center text-[15px]">
         Belum punya akun?{" "}
-        <Link href="/app" className="ml-1 font-bold text-accent hover:underline">Daftar Gratis</Link>
+        <Link href="/daftar" className="ml-1 font-bold text-accent hover:underline">Daftar Gratis</Link>
       </p>
     </div>
   );

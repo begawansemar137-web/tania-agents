@@ -88,7 +88,7 @@ export function SiteHeader({ active = "Beranda" }: { active?: string }) {
           <Link href="/masuk" className="rounded-lg border border-line bg-surface px-5 py-2.5 text-[15px] font-semibold hover:border-accent">
             Masuk
           </Link>
-          <Link href="/app" className="rounded-lg bg-accent px-5 py-2.5 text-[15px] font-semibold text-surface hover:bg-accent-strong">
+          <Link href="/daftar" className="rounded-lg bg-accent px-5 py-2.5 text-[15px] font-semibold text-surface hover:bg-accent-strong">
             Daftar Gratis
           </Link>
         </div>
@@ -114,7 +114,7 @@ export function SiteHeader({ active = "Beranda" }: { active?: string }) {
             </ul>
             <div className="mt-3 grid grid-cols-2 gap-2 border-t border-line pt-3">
               <Link href="/masuk" className="rounded-lg border border-line px-3 py-2 text-center text-sm font-semibold">Masuk</Link>
-              <Link href="/app" className="rounded-lg bg-accent px-3 py-2 text-center text-sm font-semibold text-surface">Daftar Gratis</Link>
+              <Link href="/daftar" className="rounded-lg bg-accent px-3 py-2 text-center text-sm font-semibold text-surface">Daftar Gratis</Link>
             </div>
           </div>
         </details>

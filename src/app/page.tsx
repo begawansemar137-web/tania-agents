@@ -51,9 +51,6 @@ export default function Home() {
         {/* Hero */}
         <section className="mx-auto grid max-w-6xl items-center gap-12 px-4 pt-16 pb-20 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:pt-24">
           <div>
-            <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1 text-xs text-muted">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" /> Open source · bisa self-host
-            </p>
             <h1 className="text-4xl leading-[1.08] font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">
               Rekan kerja AI untuk tim Anda, dibuat cukup dengan mengobrol.
             </h1>

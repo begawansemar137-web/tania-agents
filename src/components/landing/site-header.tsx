@@ -23,7 +23,7 @@ const nav: NavItem[] = [
     ],
   },
   { label: "Use Case", href: "/use-case" },
-  { label: "Developer", href: "/app/integrations" },
+  { label: "Developer", href: "/developer" },
   {
     label: "Resources",
     children: [

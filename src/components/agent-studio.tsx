@@ -7,6 +7,19 @@ import { ArrowLeft, Send, Loader2, Square, RotateCcw } from "lucide-react";
 import type { Agent, Permission, ToolAccess } from "@/lib/data";
 import { AUTO_MODEL, usd } from "@/lib/data";
 import { Badge, btnPrimary, btnGhost } from "./ui";
+import { ChatMarkdown } from "./chat-markdown";
+
+// ModelHub also lists embedding models; they can't chat, so the picker hides them.
+const isChatModel = (id: string) => !/embed/i.test(id);
+
+// One-click prompts so a first-time visitor can see the agent work without thinking of a question.
+const starters: Record<string, string[]> = {
+  "sales-prep": ["Siapkan brief untuk panggilan dengan PT Sinar Logistik", "Apa saja yang kamu cek sebelum panggilan?"],
+  "competitor-watch": ["Buat contoh digest kompetitor minggu ini", "Sumber apa saja yang kamu pantau?"],
+  "inbound-lead": ["Balas lead: 'Kami butuh chatbot WhatsApp untuk 3 cabang'", "Bagaimana kamu menilai kualitas lead?"],
+  "hr-onboarding": ["Buat checklist onboarding untuk karyawan baru tim Sales", "Apa yang terjadi di hari pertama?"],
+};
+const defaultStarters = ["Apa yang bisa kamu bantu?", "Tunjukkan contoh hasil kerjamu"];
 
 function readError(error: Error) {
   try {
@@ -33,7 +46,7 @@ export function AgentStudio({ agent }: { agent: Agent }) {
     let alive = true;
     fetch("/api/models")
       .then((r) => r.json() as Promise<{ models?: string[] }>)
-      .then((d) => alive && setAvailable(d.models ?? []))
+      .then((d) => alive && setAvailable((d.models ?? []).filter(isChatModel)))
       .catch(() => alive && setAvailable([]));
     return () => { alive = false; };
   }, []);
@@ -45,13 +58,17 @@ export function AgentStudio({ agent }: { agent: Agent }) {
   // Current (unsaved) config from the side panel travels with every request.
   const requestBody = () => ({ body: { agentId: agent.id, model, instructions } });
 
-  function send(e: React.FormEvent) {
-    e.preventDefault();
-    const text = input.trim();
+  function submitText(raw: string) {
+    const text = raw.trim();
     if (!text || busy) return;
     setInput("");
     clearError();
     sendMessage({ text }, requestBody());
+  }
+
+  function send(e: React.FormEvent) {
+    e.preventDefault();
+    submitText(input);
   }
 
   function setPerm(i: number, permission: Permission) {
@@ -81,7 +98,7 @@ export function AgentStudio({ agent }: { agent: Agent }) {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_420px]">
+      <div className="grid gap-6 xl:grid-cols-[1fr_400px]">
         {/* Chat */}
         <section aria-label="Obrolan dengan agen" className="flex h-[640px] flex-col rounded-xl border border-line bg-surface">
           <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-2 text-xs text-muted">
@@ -92,13 +109,27 @@ export function AgentStudio({ agent }: { agent: Agent }) {
           </div>
           <div className="flex-1 space-y-4 overflow-y-auto p-4" aria-live="polite">
             <div className="max-w-[85%] rounded-xl rounded-bl-sm border border-line px-3.5 py-2 text-sm">{agent.greeting}</div>
+            {messages.length === 0 && (
+              <div className="flex flex-wrap gap-2" aria-label="Contoh pertanyaan">
+                {(starters[agent.id] ?? defaultStarters).map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => submitText(s)}
+                    className="rounded-full border border-accent/40 bg-accent-soft px-3 py-1.5 text-left text-xs font-medium text-accent hover:border-accent"
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            )}
             {messages.map((m) => {
               const text = m.parts.map((p) => (p.type === "text" ? p.text : "")).join("");
               return m.role === "user" ? (
                 <div key={m.id} className="ml-auto max-w-[80%] rounded-xl rounded-br-sm bg-accent px-3.5 py-2 text-sm whitespace-pre-wrap text-surface">{text}</div>
               ) : (
-                <div key={m.id} className="max-w-[85%] rounded-xl rounded-bl-sm border border-line px-3.5 py-2 text-sm leading-relaxed whitespace-pre-wrap">
-                  {text}
+                <div key={m.id} className="max-w-[85%] rounded-xl rounded-bl-sm border border-line px-3.5 py-2 text-sm leading-relaxed">
+                  <ChatMarkdown text={text} />
                 </div>
               );
             })}
@@ -230,7 +261,7 @@ export function AgentStudio({ agent }: { agent: Agent }) {
 
           {tab !== "versi" && (
             <div className="flex items-center justify-end gap-2 border-t border-line p-3">
-              {saved && <span role="status" className="mr-auto text-xs text-ok">Tersimpan sebagai v{agent.versions[0].version + 1}</span>}
+              {saved && <span role="status" className="mr-auto text-xs text-ok">Dipakai di sesi ini (versi demo, tidak disimpan permanen)</span>}
               <button className={btnGhost} onClick={() => { setModel(agent.model); setInstructions(agent.instructions); setTools(agent.tools); setSaved(false); }}>Batalkan</button>
               <button className={btnPrimary} onClick={() => setSaved(true)}>Simpan versi baru</button>
             </div>

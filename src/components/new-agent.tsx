@@ -10,8 +10,8 @@ const examples = [
   "Jawab pertanyaan karyawan baru dari dokumen kebijakan HR",
 ];
 
-export function NewAgent() {
-  const [text, setText] = useState("");
+export function NewAgent({ initial = "", templateName }: { initial?: string; templateName?: string }) {
+  const [text, setText] = useState(initial);
   const [created, setCreated] = useState<string | null>(null);
 
   function submit(e: React.FormEvent) {
@@ -24,7 +24,8 @@ export function NewAgent() {
   return (
     <div className="rounded-xl border border-line bg-surface p-5">
       <div className="flex items-center gap-2 text-sm font-medium">
-        <Sparkles size={16} className="text-accent" aria-hidden="true" /> Buat agen baru dengan mengobrol
+        <Sparkles size={16} className="text-accent" aria-hidden="true" />
+        {templateName ? `Mulai dari template ${templateName}` : "Buat agen baru dengan mengobrol"}
       </div>
       <form onSubmit={submit} className="mt-3 flex flex-col gap-2 sm:flex-row">
         <label htmlFor="new-agent" className="sr-only">Jelaskan pekerjaan untuk agen baru</label>

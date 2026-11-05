@@ -33,7 +33,9 @@ const nav: NavItem[] = [
   },
 ];
 
-export function SiteHeader() {
+const underline = "text-accent after:absolute after:inset-x-3 after:-bottom-[15px] after:h-0.5 after:rounded-full after:bg-accent";
+
+export function SiteHeader({ active = "Beranda" }: { active?: string }) {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-surface/90 backdrop-blur">
       <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between gap-6 px-4 sm:px-6 lg:px-10">
@@ -43,7 +45,11 @@ export function SiteHeader() {
           {nav.map((item) =>
             item.children ? (
               <div key={item.label} className="group relative">
-                <button className="flex items-center gap-1 rounded-lg px-3.5 py-2 text-[15px] font-medium text-ink hover:text-accent" aria-haspopup="true">
+                <button
+                  className={`relative flex items-center gap-1 rounded-lg px-3.5 py-2 text-[15px] font-medium hover:text-accent ${item.label === active ? underline : "text-ink"}`}
+                  aria-haspopup="true"
+                  aria-current={item.label === active ? "page" : undefined}
+                >
                   {item.label} <ChevronDown size={16} aria-hidden="true" />
                 </button>
                 <div className="invisible absolute top-full left-0 pt-2 opacity-0 transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
@@ -63,9 +69,9 @@ export function SiteHeader() {
               <Link
                 key={item.label}
                 href={item.href!}
-                aria-current={item.href === "/" ? "page" : undefined}
+                aria-current={item.label === active ? "page" : undefined}
                 className={`relative px-3.5 py-2 text-[15px] font-medium hover:text-accent ${
-                  item.href === "/" ? "text-accent after:absolute after:inset-x-3 after:-bottom-[15px] after:h-0.5 after:rounded-full after:bg-accent" : "text-ink"
+                  item.label === active ? underline : "text-ink"
                 }`}
               >
                 {item.label}

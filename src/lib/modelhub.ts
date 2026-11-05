@@ -31,9 +31,12 @@ export async function listModels(): Promise<string[]> {
   return models;
 }
 
-// Pick the requested model if the key allows it, else the configured default, else the first available.
+// Embedding models are listed by /v1/models too, but they can't chat.
+const isChatModel = (id: string) => !/embed/i.test(id);
+
+// Pick the requested model if the key allows it, else the configured default, else the first chat model.
 export async function resolveModel(...candidates: (string | undefined)[]): Promise<string | undefined> {
-  const available = await listModels();
+  const available = (await listModels()).filter(isChatModel);
   const preferred = [...candidates, process.env.MODELHUB_DEFAULT_MODEL];
   return preferred.find((m) => m && available.includes(m)) ?? available[0];
 }

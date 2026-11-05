@@ -27,8 +27,9 @@ const nav: NavItem[] = [
   {
     label: "Resources",
     children: [
+      { label: "Pusat Resources", href: "/resources", desc: "Dokumen, template, dan tools" },
+      { label: "Library", href: "/resources#library", desc: "Cari dan unduh resources" },
       { label: "Dokumentasi", href: "https://github.com/begawansemar137-web/tania-agents#readme", desc: "Cara memasang dan mengatur" },
-      { label: "Jejak & biaya", href: "/app/runs", desc: "Pantau setiap eksekusi agen" },
     ],
   },
 ];

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {
   MessageSquare, Users, Eye, ShieldCheck, Lock, Receipt, Server, Sparkles,
-  CalendarClock, Monitor, Plug, Network, ArrowRight, Check,
+  CalendarClock, Monitor, Plug, Network, ArrowRight,
 } from "lucide-react";
 import { Logo } from "@/components/brand";
 import { btnPrimary, btnGhost } from "@/components/ui";
@@ -13,7 +13,7 @@ const principles = [
   { icon: ShieldCheck, title: "Anda tetap memegang kendali", desc: "Izin per alat: baca atau tulis, dan aksi mana yang perlu persetujuan." },
   { icon: Lock, title: "Aman", desc: "Setiap sesi berjalan di sandbox terisolasi. Kredensial model tak pernah terlihat agen." },
   { icon: Receipt, title: "Bisa diaudit", desc: "Setiap eksekusi dilacak. Setiap rupiah biaya tercatat." },
-  { icon: Server, title: "Milik Anda", desc: "Self-host di server sendiri, dengan model dan data Anda sendiri." },
+  { icon: Server, title: "Pilih model sendiri", desc: "Ganti model per agen lewat ModelHub, dan pakai model murah untuk tugas rutin." },
 ];
 
 const features = [
@@ -41,7 +41,6 @@ export default function Home() {
             <a href="#fitur" className="hover:text-ink">Fitur</a>
             <a href="#cara-kerja" className="hover:text-ink">Cara kerja</a>
             <a href="#template" className="hover:text-ink">Template</a>
-            <a href="#self-host" className="hover:text-ink">Self-host</a>
           </nav>
           <Link href="/app" className={btnPrimary}>Buka aplikasi</Link>
         </div>
@@ -62,7 +61,7 @@ export default function Home() {
               <Link href="/app" className={`${btnPrimary} px-5 py-2.5`}>
                 Mulai bangun agen <ArrowRight size={16} />
               </Link>
-              <a href="#self-host" className={`${btnGhost} px-5 py-2.5`}>Self-host</a>
+              <a href="#cara-kerja" className={`${btnGhost} px-5 py-2.5`}>Lihat cara kerja</a>
             </div>
           </div>
 
@@ -164,27 +163,6 @@ export default function Home() {
                 </Link>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* Self host */}
-        <section id="self-host" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-20 sm:px-6">
-          <div className="grid gap-10 rounded-2xl bg-ink p-8 text-bg sm:p-12 lg:grid-cols-2">
-            <div>
-              <h2 className="text-3xl font-semibold tracking-tight">Pakai model apa pun. Simpan data di server Anda.</h2>
-              <ul className="mt-6 space-y-2.5 text-sm opacity-85">
-                {["Model via API (Claude, GPT) atau lokal dengan Ollama", "Pakai langganan Claude/ChatGPT yang sudah Anda bayar", "Lihat biaya per agen, pilih model murah untuk tugas rutin", "Sandbox terisolasi per sesi"].map((x) => (
-                  <li key={x} className="flex gap-2"><Check size={16} className="mt-0.5 shrink-0" />{x}</li>
-                ))}
-              </ul>
-            </div>
-            <pre className="overflow-x-auto rounded-xl bg-black/30 p-5 font-mono text-sm leading-relaxed">
-{`git clone https://github.com/<org>/tania-agents
-cd tania-agents
-cp .env.example .env
-docker compose up -d
-# buka http://localhost:3000`}
-            </pre>
           </div>
         </section>
       </main>

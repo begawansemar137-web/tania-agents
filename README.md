@@ -9,7 +9,7 @@ TANIA-Agents adalah workspace agen AI berbahasa Indonesia untuk tim. Tim bisa me
 
 | Rute | Isi |
 |---|---|
-| `/` | Landing page: hero, prinsip, cara kerja, fitur, template, self-host |
+| `/` | Landing page: hero, prinsip, cara kerja, fitur, template |
 | `/app` | Daftar agen, statistik minggu ini, form buat agen, run terbaru, template |
 | `/app/agents/[id]` | Studio agen: chat dengan model AI, pilihan model dan instruksi, izin alat (mati/baca/tulis + persetujuan), riwayat versi |
 | `/app/automations` | Automasi terjadwal atau berbasis event, toggle aktif, jalankan manual |

@@ -1,5 +1,5 @@
 // Katalog agen siap pakai (data contoh). Agen yang sudah punya studio menautkan `agentId`;
-// sisanya dibuka sebagai template di /app/agents/new.
+// sisanya langsung bisa diajak bicara lewat agen yang dibuat dari deskripsinya (lib/agent-lookup.ts).
 
 export const catalogCategories = [
   "Business",

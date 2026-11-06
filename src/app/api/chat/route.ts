@@ -1,5 +1,6 @@
 import { convertToModelMessages, createUIMessageStreamResponse, streamText, toUIMessageStream, type UIMessage } from "ai";
-import { getAgent } from "@/lib/data";
+import type { Agent } from "@/lib/data";
+import { CUSTOM_AGENT_ID, customAgent, findAgent } from "@/lib/agent-lookup";
 import { hasModelHubKey, modelhub, resolveModel } from "@/lib/modelhub";
 
 const MAX_MESSAGES = 30;
@@ -10,7 +11,19 @@ type ChatBody = {
   agentId?: string;
   model?: string;
   instructions?: string;
+  agent?: { name?: string; role?: string }; // only for agentId "custom"
 };
+
+// Built-in studio agents and catalog agents are looked up by id. A user-made agent ("custom") lives only
+// in the browser, so its name and role come with the request; both are length-capped like instructions.
+function resolveAgent(body: ChatBody): Agent | undefined {
+  if (body.agentId === CUSTOM_AGENT_ID) {
+    const role = body.agent?.role?.trim().slice(0, 500);
+    if (!role) return undefined;
+    return customAgent(role, body.agent?.name?.trim().slice(0, 80) || undefined);
+  }
+  return body.agentId ? findAgent(body.agentId) : undefined;
+}
 
 function jsonError(status: number, message: string) {
   return Response.json({ error: message }, { status });
@@ -28,7 +41,7 @@ export async function POST(req: Request) {
     return jsonError(400, "Body permintaan bukan JSON yang valid.");
   }
 
-  const agent = body.agentId ? getAgent(body.agentId) : undefined;
+  const agent = resolveAgent(body);
   if (!agent) return jsonError(404, "Agen tidak ditemukan.");
   if (!Array.isArray(body.messages) || body.messages.length === 0) return jsonError(400, "Tidak ada pesan.");
 

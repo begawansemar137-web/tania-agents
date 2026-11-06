@@ -22,6 +22,7 @@ export type Agent = {
   costThisWeek: number; // USD
   status: "aktif" | "draf";
   greeting: string;
+  starters?: string[]; // one-click prompts shown before the first message
 };
 
 export const agents: Agent[] = [

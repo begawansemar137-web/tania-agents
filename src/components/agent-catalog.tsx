@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Robot } from "@/components/landing/robot";
 import { catalog, catalogCategories, type CatalogAgent, type CatalogCategory, type CatalogIcon } from "@/lib/catalog";
+import { catalogHref } from "@/lib/agent-lookup";
 
 const agentIcons: Record<CatalogIcon, LucideIcon> = {
   sales: Headphones, marketing: Megaphone, customer: Headset, hr: Users, finance: Database, code: Code2,
@@ -30,7 +31,7 @@ type SortKey = keyof typeof sorts;
 
 const benefits = ["Siap pakai & cepat di-deploy", "Terintegrasi dengan sistem Anda", "Aman & sesuai governance", "Dapat dikustomisasi (low-code)"];
 
-const hrefFor = (a: CatalogAgent) => (a.agentId ? `/app/agents/${a.agentId}` : `/app/agents/new?template=${a.slug}`);
+const hrefFor = catalogHref;
 
 function AgentBadge({ badge }: { badge: CatalogAgent["badge"] }) {
   if (!badge) return null;

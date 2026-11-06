@@ -32,7 +32,7 @@ export const resources: Resource[] = [
   { title: "Contoh konfigurasi .env", type: "Dokumentasi", topics: ["Setup", "ModelHub"], updated: "2026-11-05", format: "doc", action: "Unduh", href: `${RAW}/.env.example` },
   { title: "Quick Start Developer", type: "Tutorial & Learning", topics: ["Quick Start", "API"], updated: "2026-11-05", format: "link", action: "Buka", href: "/developer#quick-start" },
   { title: "Buat agen baru lewat obrolan", type: "Tutorial & Learning", topics: ["No-Code", "Agent Builder"], updated: "2026-11-05", format: "link", action: "Buka", href: "/app/agents/new" },
-  { title: "Template: Customer Service Agent", type: "Template", topics: ["Customer Service", "FAQ"], updated: "2026-11-05", format: "link", action: "Buka", href: "/app/agents/new?template=customer" },
+  { title: "Template: Customer Service Agent", type: "Template", topics: ["Customer Service", "FAQ"], updated: "2026-11-05", format: "link", action: "Buka", href: "/app/agents/customer" },
   { title: "Template: Sales Agent (Sari)", type: "Template", topics: ["Sales", "CRM"], updated: "2026-11-04", format: "link", action: "Buka", href: "/app/agents/sales-prep" },
   { title: "Katalog AI Agents", type: "Template", topics: ["Katalog", "12 agen"], updated: "2026-11-05", format: "link", action: "Buka", href: "/app" },
   { title: "Daftar integrasi aplikasi", type: "Tool & Integrasi", topics: ["Integrasi", "MCP"], updated: "2026-11-04", format: "link", action: "Buka", href: "/app/integrations" },

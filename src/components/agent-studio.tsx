@@ -8,6 +8,7 @@ import type { Agent, Permission, ToolAccess } from "@/lib/data";
 import { AUTO_MODEL, usd } from "@/lib/data";
 import { Badge, btnPrimary, btnGhost } from "./ui";
 import { ChatMarkdown } from "./chat-markdown";
+import { CUSTOM_AGENT_ID } from "@/lib/agent-lookup";
 
 // ModelHub also lists embedding models; they can't chat, so the picker hides them.
 const isChatModel = (id: string) => !/embed/i.test(id);
@@ -55,8 +56,11 @@ export function AgentStudio({ agent }: { agent: Agent }) {
     endRef.current?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
   }, [messages, status]);
 
-  // Current (unsaved) config from the side panel travels with every request.
-  const requestBody = () => ({ body: { agentId: agent.id, model, instructions } });
+  // Current (unsaved) config travels with every request. A user-made agent also sends its name and role,
+  // since it exists only in this browser.
+  const requestBody = () => ({
+    body: { agentId: agent.id, model, instructions, agent: agent.id === CUSTOM_AGENT_ID ? { name: agent.name, role: agent.role } : undefined },
+  });
 
   function submitText(raw: string) {
     const text = raw.trim();
@@ -111,7 +115,7 @@ export function AgentStudio({ agent }: { agent: Agent }) {
             <div className="max-w-[85%] rounded-xl rounded-bl-sm border border-line px-3.5 py-2 text-sm">{agent.greeting}</div>
             {messages.length === 0 && (
               <div className="flex flex-wrap gap-2" aria-label="Contoh pertanyaan">
-                {(starters[agent.id] ?? defaultStarters).map((s) => (
+                {(agent.starters ?? starters[agent.id] ?? defaultStarters).map((s) => (
                   <button
                     key={s}
                     type="button"

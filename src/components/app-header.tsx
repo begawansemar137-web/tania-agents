@@ -1,10 +1,39 @@
+"use client";
+
 import Link from "next/link";
-import { ArrowLeft, FlaskConical } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { LogOut, ShieldCheck, User } from "lucide-react";
 import { LogoMark } from "./brand";
 
-// Header for the product area (/app). Unlike the marketing header it has no site nav (the sidebar is the nav),
-// and it says plainly that this is a demo where nothing is saved.
+type UserSession = {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+};
+
 export function AppHeader() {
+  const router = useRouter();
+  const [user, setUser] = useState<UserSession | null>(null);
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.user) {
+          setUser(data.user);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  async function handleLogout() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    setUser(null);
+    router.push("/masuk");
+  }
+
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-surface/90 backdrop-blur">
       <div className="mx-auto flex h-[72px] max-w-[1680px] items-center gap-3 px-4 sm:px-6 lg:px-8">
@@ -14,21 +43,51 @@ export function AppHeader() {
             <span className="font-extrabold">TANIA</span> <span className="font-medium">Agents</span>
           </span>
         </Link>
-        <span
-          className="ml-1 inline-flex items-center gap-1.5 rounded-full border border-warn/40 px-3 py-1 text-xs font-semibold whitespace-nowrap text-warn"
-          title="Versi demo: perubahan tidak disimpan setelah halaman ditutup."
-        >
-          <FlaskConical size={14} aria-hidden="true" />
-          Mode demo
-          <span className="hidden font-normal sm:inline">· data tidak disimpan</span>
-        </span>
+
+        {user ? (
+          <span
+            className="ml-1 inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent-soft px-3 py-1 text-xs font-semibold whitespace-nowrap text-accent"
+            title={`Masuk sebagai ${user.email}`}
+          >
+            <ShieldCheck size={14} aria-hidden="true" />
+            Telkom Workspace
+            <span className="hidden font-normal sm:inline">· {user.email}</span>
+          </span>
+        ) : (
+          <span
+            className="ml-1 inline-flex items-center gap-1.5 rounded-full border border-warn/40 px-3 py-1 text-xs font-semibold whitespace-nowrap text-warn"
+            title="Sesi lokal aktif."
+          >
+            Sesi Lokal
+          </span>
+        )}
+
         <div className="ml-auto flex items-center gap-2 sm:gap-3">
-          <Link href="/" className="hidden items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-muted hover:bg-surface-2 hover:text-ink md:inline-flex">
-            <ArrowLeft size={16} aria-hidden="true" /> Situs utama
-          </Link>
-          <Link href="/daftar" className="rounded-lg bg-accent px-3.5 py-2 text-sm font-semibold whitespace-nowrap text-surface hover:bg-accent-strong sm:px-5 sm:py-2.5 sm:text-[15px]">
-            Daftar<span className="hidden sm:inline"> Gratis</span>
-          </Link>
+          {user ? (
+            <div className="flex items-center gap-3">
+              <div className="hidden sm:flex flex-col text-right">
+                <span className="text-xs font-bold text-ink truncate max-w-[150px]">{user.name}</span>
+                <span className="text-[11px] text-muted truncate max-w-[150px]">{user.email}</span>
+              </div>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="flex items-center gap-1.5 rounded-lg border border-line bg-surface px-3 py-2 text-xs font-medium text-muted hover:border-danger hover:text-danger transition"
+                title="Keluar dari akun"
+              >
+                <LogOut size={14} />
+                <span className="hidden sm:inline">Keluar</span>
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/masuk"
+              className="flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-xs font-semibold text-surface hover:bg-accent-strong"
+            >
+              <User size={14} />
+              Masuk Telkom
+            </Link>
+          )}
         </div>
       </div>
     </header>

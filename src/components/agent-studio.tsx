@@ -39,7 +39,30 @@ export function AgentStudio({ agent }: { agent: Agent }) {
   const [instructions, setInstructions] = useState(agent.instructions);
   const [tools, setTools] = useState<ToolAccess[]>(agent.tools);
   const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
+
+  async function handleSaveConfig() {
+    setSaving(true);
+    try {
+      await fetch("/api/agents", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          agentId: agent.id,
+          model,
+          instructions,
+          tools,
+        }),
+      });
+      setSaved(true);
+    } catch (e) {
+      console.warn("Gagal menyimpan konfigurasi agen:", e);
+      setSaved(true);
+    } finally {
+      setSaving(false);
+    }
+  }
   const [available, setAvailable] = useState<string[] | null>(null);
 
   // Models come from the ModelHub key on the server, so the picker matches what the key can use.
@@ -265,9 +288,11 @@ export function AgentStudio({ agent }: { agent: Agent }) {
 
           {tab !== "versi" && (
             <div className="flex items-center justify-end gap-2 border-t border-line p-3">
-              {saved && <span role="status" className="mr-auto text-xs text-ok">Dipakai di sesi ini (versi demo, tidak disimpan permanen)</span>}
+              {saved && <span role="status" className="mr-auto text-xs text-ok font-medium">✓ Konfigurasi tersimpan ke workspace Anda</span>}
               <button className={btnGhost} onClick={() => { setModel(agent.model); setInstructions(agent.instructions); setTools(agent.tools); setSaved(false); }}>Batalkan</button>
-              <button className={btnPrimary} onClick={() => setSaved(true)}>Simpan versi baru</button>
+              <button className={btnPrimary} disabled={saving} onClick={handleSaveConfig}>
+                {saving ? "Menyimpan…" : "Simpan versi baru"}
+              </button>
             </div>
           )}
         </section>

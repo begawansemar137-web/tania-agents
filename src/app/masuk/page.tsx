@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { Bot, Database, Gauge, Rocket, ShieldCheck, Sparkles, Workflow, Zap, type LucideIcon } from "lucide-react";
 import { LogoMark } from "@/components/brand";
 import { Robot } from "@/components/landing/robot";
@@ -92,7 +93,9 @@ export default function MasukPage() {
         </div>
 
         <div className="order-1 w-full text-ink lg:order-3">
-          <LoginForm />
+          <Suspense fallback={<div className="rounded-[28px] border border-white/70 bg-surface/95 p-10 text-center text-muted">Memuat formulir masuk...</div>}>
+            <LoginForm />
+          </Suspense>
         </div>
       </main>
     </div>

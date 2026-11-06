@@ -2,6 +2,8 @@ import { convertToModelMessages, createUIMessageStreamResponse, streamText, toUI
 import type { Agent } from "@/lib/data";
 import { CUSTOM_AGENT_ID, customAgent, findAgent } from "@/lib/agent-lookup";
 import { hasModelHubKey, modelhub, resolveModel } from "@/lib/modelhub";
+import { getCurrentUser } from "@/lib/auth";
+import { getAgentById, getOrCreateThread, recordRunTrace, saveChatMessage } from "@/lib/db";
 
 const MAX_MESSAGES = 30;
 const MAX_INSTRUCTIONS = 4000;
@@ -14,15 +16,20 @@ type ChatBody = {
   agent?: { name?: string; role?: string }; // only for agentId "custom"
 };
 
-// Built-in studio agents and catalog agents are looked up by id. A user-made agent ("custom") lives only
-// in the browser, so its name and role come with the request; both are length-capped like instructions.
-function resolveAgent(body: ChatBody): Agent | undefined {
+function resolveAgent(body: ChatBody, userId?: string): Agent | undefined {
   if (body.agentId === CUSTOM_AGENT_ID) {
     const role = body.agent?.role?.trim().slice(0, 500);
     if (!role) return undefined;
     return customAgent(role, body.agent?.name?.trim().slice(0, 80) || undefined);
   }
-  return body.agentId ? findAgent(body.agentId) : undefined;
+  if (!body.agentId) return undefined;
+
+  // First try user-specific agent in DB
+  const dbAgent = getAgentById(body.agentId, userId);
+  if (dbAgent) return dbAgent;
+
+  // Fallback to static catalog
+  return findAgent(body.agentId);
 }
 
 function jsonError(status: number, message: string) {
@@ -41,7 +48,10 @@ export async function POST(req: Request) {
     return jsonError(400, "Body permintaan bukan JSON yang valid.");
   }
 
-  const agent = resolveAgent(body);
+  const currentUser = await getCurrentUser();
+  const userId = currentUser?.id || "anonymous-dev";
+
+  const agent = resolveAgent(body, currentUser?.id);
   if (!agent) return jsonError(404, "Agen tidak ditemukan.");
   if (!Array.isArray(body.messages) || body.messages.length === 0) return jsonError(400, "Tidak ada pesan.");
 
@@ -62,17 +72,63 @@ export async function POST(req: Request) {
     .join("\n");
 
   const instructions = [
-    `Kamu adalah "${agent.name}", rekan kerja AI di TANIA-Agents. Peranmu: ${agent.role}`,
+    `Kamu adalah "${agent.name}", rekan kerja AI di TANIA-Agents untuk Telkom Enterprise. Peranmu: ${agent.role}`,
     `Instruksi dari pemilik agen:\n${custom}`,
     `Integrasi yang direncanakan untukmu:\n${toolList || "- (tidak ada)"}`,
-    "Penting: integrasi di atas BELUM tersambung di versi ini. Jangan mengaku telah membaca email, kalender, CRM, atau web. Jika tugas butuh data dari integrasi, jelaskan langkah yang akan kamu ambil dan minta pengguna menempelkan datanya.",
-    "Jawab dalam Bahasa Indonesia yang ringkas dan jelas, kecuali pengguna memakai bahasa lain.",
+    "Jawab dalam Bahasa Indonesia yang profesional, ringkas, dan jelas, kecuali pengguna memakai bahasa lain.",
   ].join("\n\n");
+
+  const lastUserMsg = body.messages[body.messages.length - 1];
+  const lastUserText = lastUserMsg.parts.map((p) => (p.type === "text" ? p.text : "")).join("");
+
+  // Persist user message to thread
+  let threadId: string | null = null;
+  try {
+    threadId = getOrCreateThread(userId, agent.id);
+    saveChatMessage(threadId, "user", lastUserText, lastUserMsg.parts);
+  } catch (e) {
+    console.warn("[api/chat] Failed to save thread message:", e);
+  }
+
+  const startTime = Date.now();
 
   const result = streamText({
     model: modelhub.chatModel(model),
     instructions,
     messages: await convertToModelMessages(body.messages.slice(-MAX_MESSAGES)),
+    onFinish: async ({ text, usage }) => {
+      try {
+        const durationMs = Date.now() - startTime;
+        const totalTokens = usage?.totalTokens || (text.length / 4);
+        const costUsd = Number(((totalTokens / 1000) * 0.002).toFixed(4));
+
+        if (threadId) {
+          saveChatMessage(threadId, "assistant", text);
+        }
+
+        recordRunTrace({
+          userId,
+          agentId: agent.id,
+          summary: lastUserText.slice(0, 60) || "Obrolan dengan agen",
+          model: model!,
+          durationMs,
+          tokensUsed: totalTokens,
+          costUsd,
+          status: "berhasil",
+          spans: [
+            {
+              name: "llm_generate",
+              kind: "llm",
+              ms: durationMs,
+              tokens: totalTokens,
+              detail: `Model: ${model}`,
+            },
+          ],
+        });
+      } catch (err) {
+        console.warn("[api/chat] Failed to record run trace:", err);
+      }
+    },
   });
 
   return createUIMessageStreamResponse({
@@ -80,7 +136,6 @@ export async function POST(req: Request) {
   });
 }
 
-// Log the real error server-side; send the user a safe, actionable message.
 function describeError(error: unknown) {
   const message = error instanceof Error ? error.message : String(error);
   console.error("[api/chat]", message);

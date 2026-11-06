@@ -72,7 +72,7 @@ export default function Home() {
                 Bangun, kelola, dan jalankan AI Agent untuk berbagai kebutuhan bisnis dengan aman, terintegrasi, dan siap skala.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
-                <Link href="/app" className="inline-flex items-center gap-2 rounded-lg bg-accent px-8 py-3.5 text-[17px] font-semibold text-surface shadow-[0_12px_30px_-12px_rgba(74,47,208,0.8)] hover:bg-accent-strong">
+                <Link href="/daftar" className="inline-flex items-center gap-2 rounded-lg bg-accent px-8 py-3.5 text-[17px] font-semibold text-surface shadow-[0_12px_30px_-12px_rgba(74,47,208,0.8)] hover:bg-accent-strong">
                   Mulai Gratis <ArrowRight size={18} />
                 </Link>
                 <Link href="/app/agents/sales-prep" className="inline-flex items-center gap-2 rounded-lg border border-line bg-surface px-8 py-3.5 text-[17px] font-semibold hover:border-accent">

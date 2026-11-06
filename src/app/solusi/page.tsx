@@ -44,7 +44,7 @@ export default function SolusiPage() {
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link href="/app" className="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3.5 text-[15px] font-semibold text-surface hover:bg-accent-strong">
-                Konsultasi Solusi <ArrowRight size={18} aria-hidden="true" />
+                Lihat Agen Siap Pakai <ArrowRight size={18} aria-hidden="true" />
               </Link>
               <Link href="/app/agents/sales-prep" className="inline-flex items-center gap-2 rounded-xl border border-line bg-surface px-6 py-3.5 text-[15px] font-semibold hover:border-accent">
                 <PlayCircle size={20} aria-hidden="true" /> Lihat Demo

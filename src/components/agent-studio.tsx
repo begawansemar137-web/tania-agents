@@ -92,7 +92,7 @@ export function AgentStudio({ agent }: { agent: Agent }) {
           <h1 className="text-xl font-semibold tracking-tight">{agent.name}</h1>
           <p className="text-sm text-muted">{agent.role}</p>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex w-full flex-wrap gap-2 sm:w-auto">
           {agent.channels.map((c) => <Badge key={c} tone="accent">{c}</Badge>)}
           <Badge>{agent.runsThisWeek} run · {usd(agent.costThisWeek)}</Badge>
         </div>

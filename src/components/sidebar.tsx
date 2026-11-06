@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowRight, BarChart3, BookOpen, Bot, Home, Network, Puzzle, Activity, Settings } from "lucide-react";
+import { ArrowRight, BarChart3, BookOpen, Bot, Network, Puzzle, Activity, Settings } from "lucide-react";
 import { LogoMark } from "./brand";
 
 const nav = [
-  { href: "/", label: "Beranda", icon: Home },
   { href: "/app", label: "Agents", icon: Bot },
   { href: "/app/automations", label: "Workflow", icon: Network },
   { href: "/app/workspace", label: "Knowledge", icon: BookOpen },
@@ -17,7 +16,6 @@ const nav = [
 ];
 
 function isActive(pathname: string, href: string) {
-  if (href === "/") return false;
   if (href === "/app") return pathname === "/app" || pathname.startsWith("/app/agents");
   return pathname.startsWith(href);
 }

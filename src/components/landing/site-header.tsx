@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronDown, Menu, Search } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
 import { Logo } from "@/components/brand";
 
 type NavItem = { label: string; href?: string; children?: { label: string; href: string; desc: string }[] };
@@ -82,9 +82,6 @@ export function SiteHeader({ active = "Beranda" }: { active?: string }) {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <Link href="/app/integrations" aria-label="Cari integrasi" className="grid h-10 w-10 place-items-center rounded-lg text-ink hover:bg-surface-2">
-            <Search size={20} />
-          </Link>
           <Link href="/masuk" className="rounded-lg border border-line bg-surface px-5 py-2.5 text-[15px] font-semibold hover:border-accent">
             Masuk
           </Link>

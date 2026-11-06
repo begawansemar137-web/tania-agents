@@ -26,7 +26,7 @@ const floating: { icon: LucideIcon; className: string }[] = [
 
 export default function MasukPage() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(135deg,#2a1590_0%,#4a2fd0_45%,#7b5cf0_100%)] text-white">
+    <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(135deg,#2a1590_0%,#4a2fd0_45%,#6344dc_100%)] text-white">
       {/* soft glows */}
       <div aria-hidden="true" className="pointer-events-none absolute -top-40 left-1/3 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(160,140,255,0.45),transparent_65%)]" />
       <div aria-hidden="true" className="pointer-events-none absolute -right-40 bottom-0 h-[480px] w-[480px] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.18),transparent_65%)]" />
@@ -72,7 +72,7 @@ export default function MasukPage() {
                 </span>
                 <span>
                   <span className="block text-[15px] font-bold">{title}</span>
-                  <span className="mt-0.5 block text-[13px] leading-snug text-white/75">{desc}</span>
+                  <span className="mt-0.5 block text-[13px] leading-snug text-white/85">{desc}</span>
                 </span>
               </li>
             ))}

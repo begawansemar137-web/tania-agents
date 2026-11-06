@@ -50,7 +50,7 @@ export function LoginForm() {
         onClick={() => setNotice("Masuk dengan WhatsApp belum tersambung di versi ini. Anda tetap bisa mencoba versi demo.")}
         className="mt-4 flex w-full items-center justify-center gap-2.5 rounded-xl border border-line bg-surface py-3 text-[15px] font-semibold hover:border-accent"
       >
-        <span className="grid h-7 w-7 place-items-center rounded-full bg-[#25d366] text-white" aria-hidden="true">
+        <span className="grid h-7 w-7 place-items-center rounded-full bg-whatsapp text-white" aria-hidden="true">
           <MessageCircle size={16} strokeWidth={2.4} />
         </span>
         Masuk dengan WhatsApp

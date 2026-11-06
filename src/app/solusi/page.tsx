@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, BarChart3, Code2, Database, Layers, PlayCircle, Settings, ShieldCheck, Target, type LucideIcon } from "lucide-react";
 import { SiteHeader } from "@/components/landing/site-header";
+import { SiteFooter } from "@/components/landing/site-footer";
 import { Robot } from "@/components/landing/robot";
 import { SolutionsCatalog } from "@/components/solutions-catalog";
-import { Logo } from "@/components/brand";
 
 export const metadata: Metadata = {
   title: "Solusi — TANIA Agents",
@@ -31,6 +31,7 @@ export default function SolusiPage() {
     <div className="min-h-screen">
       <SiteHeader active="Solusi" />
 
+      <main id="konten">
       <section className="relative overflow-hidden bg-gradient-to-r from-bg via-hero-glow/60 to-hero-glow">
         <div className="mx-auto grid max-w-[1600px] items-center gap-8 px-4 pt-8 pb-10 sm:px-6 lg:px-10 xl:grid-cols-[minmax(0,1fr)_420px_370px] xl:pb-6">
           <div>
@@ -43,10 +44,10 @@ export default function SolusiPage() {
               Kumpulan solusi siap pakai berbasis AI Agent yang membantu meningkatkan produktivitas, efisiensi, dan pertumbuhan bisnis lintas industri.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/app" className="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3.5 text-[15px] font-semibold text-surface hover:bg-accent-strong">
+              <Link href="/app" className="inline-flex w-full items-center justify-center gap-2 sm:w-auto rounded-xl bg-accent px-6 py-3.5 text-[15px] font-semibold text-surface hover:bg-accent-strong">
                 Lihat Agen Siap Pakai <ArrowRight size={18} aria-hidden="true" />
               </Link>
-              <Link href="/app/agents/sales-prep" className="inline-flex items-center gap-2 rounded-xl border border-line bg-surface px-6 py-3.5 text-[15px] font-semibold hover:border-accent">
+              <Link href="/app/agents/sales-prep" className="inline-flex w-full items-center justify-center gap-2 sm:w-auto rounded-xl border border-line bg-surface px-6 py-3.5 text-[15px] font-semibold hover:border-accent">
                 <PlayCircle size={20} aria-hidden="true" /> Lihat Demo
               </Link>
             </div>
@@ -77,16 +78,12 @@ export default function SolusiPage() {
         </div>
       </section>
 
-      <main className="mx-auto max-w-[1600px] px-4 pt-6 pb-16 sm:px-6 lg:px-10">
+      <div className="mx-auto max-w-[1600px] px-4 pt-6 pb-16 sm:px-6 lg:px-10">
         <SolutionsCatalog />
+      </div>
       </main>
 
-      <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-4 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-10">
-          <Logo />
-          <p>© 2026 TANIA Agents.</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

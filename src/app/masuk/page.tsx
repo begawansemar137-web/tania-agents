@@ -26,7 +26,7 @@ const floating: { icon: LucideIcon; className: string }[] = [
 
 export default function MasukPage() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(135deg,#2a1590_0%,#4a2fd0_45%,#6344dc_100%)] text-white">
+    <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(135deg,var(--brand-deep)_0%,var(--brand-mid)_45%,var(--brand-light)_100%)] text-white">
       {/* soft glows */}
       <div aria-hidden="true" className="pointer-events-none absolute -top-40 left-1/3 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(160,140,255,0.45),transparent_65%)]" />
       <div aria-hidden="true" className="pointer-events-none absolute -right-40 bottom-0 h-[480px] w-[480px] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.18),transparent_65%)]" />
@@ -52,14 +52,14 @@ export default function MasukPage() {
         </Link>
       </header>
 
-      <main className="relative z-10 mx-auto grid max-w-[1440px] items-center gap-10 px-5 pt-8 pb-24 sm:px-10 lg:grid-cols-[1fr_minmax(0,440px)] lg:gap-10 xl:grid-cols-[1fr_minmax(0,0.8fr)_minmax(0,460px)] xl:gap-8 lg:pt-10">
+      <main id="konten" className="relative z-10 mx-auto grid max-w-[1440px] items-center gap-10 px-5 pt-8 pb-24 sm:px-10 lg:grid-cols-[1fr_minmax(0,440px)] lg:gap-10 xl:grid-cols-[1fr_minmax(0,0.8fr)_minmax(0,460px)] xl:gap-8 lg:pt-10">
         <section className="order-2 lg:order-1">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-sm font-medium backdrop-blur">
             <Sparkles size={15} aria-hidden="true" /> Enterprise AI Agents Platform
           </span>
           <p className="mt-6 text-[44px] leading-[1.05] font-extrabold tracking-tight sm:text-[56px]">
             TANIA
-            <span className="block bg-gradient-to-r from-white to-[#cfc3ff] bg-clip-text text-transparent">Agents</span>
+            <span className="block bg-gradient-to-r from-white to-brand-tint bg-clip-text text-transparent">Agents</span>
           </p>
           <p className="mt-5 max-w-md text-[17px] leading-relaxed text-white/85">
             Bangun, kelola, dan jalankan AI Agent untuk mempercepat pekerjaan tim Anda, dengan aman dan terukur.

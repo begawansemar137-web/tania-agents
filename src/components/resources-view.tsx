@@ -39,8 +39,8 @@ const isExternal = (href: string) => href.startsWith("http") || href.startsWith(
 const ext = (href: string) => (isExternal(href) ? { target: "_blank", rel: "noreferrer" } : {});
 
 function FormatIcon({ format }: { format: Resource["format"] }) {
-  if (format === "zip") return <FileArchive size={20} className="shrink-0 text-[#d98a0b]" aria-label="ZIP" />;
-  if (format === "doc") return <FileText size={20} className="shrink-0 text-[#e5484d]" aria-label="Dokumen" />;
+  if (format === "zip") return <FileArchive size={20} className="shrink-0 text-warn" aria-label="ZIP" />;
+  if (format === "doc") return <FileText size={20} className="shrink-0 text-danger" aria-label="Dokumen" />;
   return <Link2 size={20} className="shrink-0 text-accent" aria-label="Tautan" />;
 }
 
@@ -71,7 +71,7 @@ export function ResourcesView() {
 
   function pick(t: ResourceType | "all", scroll = true) {
     setType(t);
-    if (scroll) document.getElementById("library")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (scroll) document.getElementById("library")?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
   }
 
   const sideItems: { key: ResourceType | "all"; label: string; icon: LucideIcon }[] = [
@@ -125,7 +125,7 @@ export function ResourcesView() {
         </nav>
       </aside>
 
-      <main className="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
+      <main id="konten" className="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
         {/* Hero */}
         <section className="relative">
           <div aria-hidden="true" className="pointer-events-none absolute -top-6 -right-8 -z-10 h-[400px] w-[75%] bg-[radial-gradient(ellipse_at_top_right,var(--hero-glow),transparent_68%)]" />

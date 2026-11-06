@@ -52,7 +52,7 @@ export function AgentStudio({ agent }: { agent: Agent }) {
   }, []);
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    endRef.current?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
   }, [messages, status]);
 
   // Current (unsaved) config from the side panel travels with every request.

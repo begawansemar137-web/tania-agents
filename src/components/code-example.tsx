@@ -57,7 +57,7 @@ function highlight(line: string) {
   for (const m of line.matchAll(TOKEN)) {
     if (m.index > last) out.push(line.slice(last, m.index));
     out.push(
-      <span key={m.index} className={m[1] ? "text-[#f5d76e]" : "text-[#c4a8ff]"}>
+      <span key={m.index} className={m[1] ? "text-code-string" : "text-code-key"}>
         {m[0]}
       </span>,
     );
@@ -106,11 +106,11 @@ export function CodeExample() {
           {copied ? "Tersalin" : "Salin"}
         </button>
       </div>
-      <pre className="mt-3 flex-1 overflow-x-auto rounded-xl bg-[#17152b] p-4 font-mono text-[12.5px] leading-relaxed text-[#ecebf8]">
+      <pre className="mt-3 flex-1 overflow-x-auto rounded-xl bg-code-bg p-4 font-mono text-[12.5px] leading-relaxed text-code-ink">
         <code>
           {code.split("\n").map((line, i) => (
             <span key={i} className="block">
-              <span className="mr-4 inline-block w-5 text-right text-[#6f6b93] select-none">{i + 1}</span>
+              <span className="mr-4 inline-block w-5 text-right text-code-muted select-none">{i + 1}</span>
               {highlight(line)}
             </span>
           ))}

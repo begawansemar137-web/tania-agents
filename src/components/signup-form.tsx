@@ -95,7 +95,7 @@ export function SignupForm() {
             <div>
               <label htmlFor="su-wa" className={labelCls}>Nomor WhatsApp <Req /></label>
               <div className={fieldBox}>
-                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#25d366] text-white" aria-hidden="true">
+                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-whatsapp text-white" aria-hidden="true">
                   <MessageCircle size={13} strokeWidth={2.6} />
                 </span>
                 <input

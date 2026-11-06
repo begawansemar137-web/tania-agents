@@ -6,6 +6,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { SiteHeader } from "@/components/landing/site-header";
+import { SiteFooter } from "@/components/landing/site-footer";
 import { Robot } from "@/components/landing/robot";
 import { DeveloperSidebar } from "@/components/developer-sidebar";
 import { CodeExample } from "@/components/code-example";
@@ -82,7 +83,7 @@ export default function DeveloperPage() {
       <SiteHeader active="Developer" />
       <div className="mx-auto flex max-w-[1680px] flex-col lg:flex-row">
         <DeveloperSidebar />
-        <main className="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-6">
+        <main id="konten" className="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-6">
           {/* Hero */}
           <section className="relative">
             <div aria-hidden="true" className="pointer-events-none absolute -top-6 -right-8 -z-10 h-[400px] w-[75%] bg-[radial-gradient(ellipse_at_top_right,var(--hero-glow),transparent_68%)]" />
@@ -242,6 +243,7 @@ export default function DeveloperPage() {
           </section>
         </main>
       </div>
+      <SiteFooter />
     </div>
   );
 }

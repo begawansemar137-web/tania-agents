@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, CircleCheck, Layers, PlayCircle, Settings, Target, Zap, type LucideIcon } from "lucide-react";
 import { SiteHeader } from "@/components/landing/site-header";
+import { SiteFooter } from "@/components/landing/site-footer";
 import { Robot } from "@/components/landing/robot";
 import { UseCaseCatalog } from "@/components/use-case-catalog";
-import { Logo } from "@/components/brand";
 
 export const metadata: Metadata = {
   title: "Use Case — TANIA Agents",
@@ -54,6 +54,7 @@ export default function UseCasePage() {
     <div className="min-h-screen">
       <SiteHeader active="Use Case" />
 
+      <main id="konten">
       <section className="relative overflow-hidden bg-gradient-to-r from-bg via-hero-glow/60 to-hero-glow">
         <div className="mx-auto grid max-w-[1600px] items-center gap-8 px-4 pt-8 pb-10 sm:px-6 lg:px-10 xl:grid-cols-[minmax(0,1fr)_420px_390px] xl:pb-6">
           <div>
@@ -66,10 +67,10 @@ export default function UseCasePage() {
               Eksplorasi berbagai penerapan AI Agent yang memberikan dampak nyata di berbagai industri dan fungsi bisnis.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="#daftar" className="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3.5 text-[15px] font-semibold text-surface hover:bg-accent-strong">
+              <Link href="#daftar" className="inline-flex w-full items-center justify-center gap-2 sm:w-auto rounded-xl bg-accent px-6 py-3.5 text-[15px] font-semibold text-surface hover:bg-accent-strong">
                 Jelajahi Use Case <ArrowRight size={18} aria-hidden="true" />
               </Link>
-              <Link href="/app/agents/sales-prep" className="inline-flex items-center gap-2 rounded-xl border border-line bg-surface px-6 py-3.5 text-[15px] font-semibold hover:border-accent">
+              <Link href="/app/agents/sales-prep" className="inline-flex w-full items-center justify-center gap-2 sm:w-auto rounded-xl border border-line bg-surface px-6 py-3.5 text-[15px] font-semibold hover:border-accent">
                 <PlayCircle size={20} aria-hidden="true" /> Lihat Demo Nyata
               </Link>
             </div>
@@ -98,16 +99,12 @@ export default function UseCasePage() {
         </div>
       </section>
 
-      <main className="mx-auto max-w-[1600px] px-4 pt-6 pb-16 sm:px-6 lg:px-10">
+      <div className="mx-auto max-w-[1600px] px-4 pt-6 pb-16 sm:px-6 lg:px-10">
         <UseCaseCatalog />
+      </div>
       </main>
 
-      <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-4 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-10">
-          <Logo />
-          <p>© 2026 TANIA Agents.</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

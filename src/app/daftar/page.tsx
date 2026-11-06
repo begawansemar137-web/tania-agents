@@ -44,7 +44,7 @@ export default function DaftarPage() {
         ))}
       </svg>
 
-      <div className="relative z-10 mx-auto grid max-w-[1500px] gap-10 px-5 py-6 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,640px)] lg:items-center lg:gap-10 lg:py-8">
+      <main id="konten" className="relative z-10 mx-auto grid max-w-[1500px] gap-10 px-5 py-6 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,640px)] lg:items-center lg:gap-10 lg:py-8">
         <div className="order-2 lg:order-1">
           <div className="hidden lg:block">
             <Logo />
@@ -106,7 +106,7 @@ export default function DaftarPage() {
           </div>
           <SignupForm />
         </div>
-      </div>
+      </main>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SiteHeader } from "@/components/landing/site-header";
+import { SiteFooter } from "@/components/landing/site-footer";
 import { ResourcesView } from "@/components/resources-view";
 
 export const metadata: Metadata = {
@@ -12,6 +13,7 @@ export default function ResourcesPage() {
     <div className="min-h-screen">
       <SiteHeader active="Resources" />
       <ResourcesView />
+      <SiteFooter />
     </div>
   );
 }

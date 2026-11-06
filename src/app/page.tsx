@@ -3,8 +3,8 @@ import {
   MessageSquare, Users, Eye, ShieldCheck, Lock, Receipt, Server, Sparkles,
   CalendarClock, Monitor, Plug, Network, ArrowRight, PlayCircle, Zap, FileText, Share2, CheckCircle2,
 } from "lucide-react";
-import { Logo } from "@/components/brand";
 import { SiteHeader } from "@/components/landing/site-header";
+import { SiteFooter } from "@/components/landing/site-footer";
 import { Robot } from "@/components/landing/robot";
 import { AgentCategories } from "@/components/landing/agent-categories";
 import { DashboardMock, OfficeTower } from "@/components/landing/dashboard-mock";
@@ -53,7 +53,7 @@ export default function Home() {
     <div className="flex flex-col overflow-x-clip">
       <SiteHeader />
 
-      <main>
+      <main id="konten">
         {/* Hero */}
         <section className="relative isolate">
           <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[radial-gradient(70%_90%_at_62%_20%,var(--hero-glow),transparent_70%)]" />
@@ -72,10 +72,10 @@ export default function Home() {
                 Bangun, kelola, dan jalankan AI Agent untuk berbagai kebutuhan bisnis dengan aman, terintegrasi, dan siap skala.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
-                <Link href="/daftar" className="inline-flex items-center gap-2 rounded-lg bg-accent px-8 py-3.5 text-[17px] font-semibold text-surface shadow-[0_12px_30px_-12px_rgba(74,47,208,0.8)] hover:bg-accent-strong">
+                <Link href="/daftar" className="inline-flex w-full items-center justify-center gap-2 sm:w-auto rounded-lg bg-accent px-8 py-3.5 text-[17px] font-semibold text-surface shadow-[0_12px_30px_-12px_rgba(74,47,208,0.8)] hover:bg-accent-strong">
                   Mulai Gratis <ArrowRight size={18} />
                 </Link>
-                <Link href="/app/agents/sales-prep" className="inline-flex items-center gap-2 rounded-lg border border-line bg-surface px-8 py-3.5 text-[17px] font-semibold hover:border-accent">
+                <Link href="/app/agents/sales-prep" className="inline-flex w-full items-center justify-center gap-2 sm:w-auto rounded-lg border border-line bg-surface px-8 py-3.5 text-[17px] font-semibold hover:border-accent">
                   <PlayCircle size={20} /> Lihat Demo
                 </Link>
               </div>
@@ -195,12 +195,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-4 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-10">
-          <Logo />
-          <p>© 2026 TANIA Agents.</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

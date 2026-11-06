@@ -42,7 +42,7 @@ export function SiteHeader({ active = "Beranda" }: { active?: string }) {
       <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between gap-6 px-4 sm:px-6 lg:px-10">
         <Logo />
 
-        <nav aria-label="Utama" className="hidden items-center gap-1 lg:flex">
+        <nav aria-label="Utama" className="hidden items-center gap-1 xl:flex">
           {nav.map((item) =>
             item.children ? (
               <div key={item.label} className="group relative">
@@ -81,7 +81,7 @@ export function SiteHeader({ active = "Beranda" }: { active?: string }) {
           )}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
+        <div className="hidden items-center gap-3 xl:flex">
           <Link href="/masuk" className="rounded-lg border border-line bg-surface px-5 py-2.5 text-[15px] font-semibold hover:border-accent">
             Masuk
           </Link>
@@ -91,24 +91,39 @@ export function SiteHeader({ active = "Beranda" }: { active?: string }) {
         </div>
 
         {/* Mobile menu */}
-        <details className="group relative lg:hidden">
+        <details className="group relative xl:hidden">
           <summary className="grid h-10 w-10 cursor-pointer list-none place-items-center rounded-lg border border-line [&::-webkit-details-marker]:hidden" aria-label="Buka menu">
             <Menu size={20} />
           </summary>
-          <div className="absolute top-12 right-0 w-[min(88vw,320px)] rounded-xl border border-line bg-surface p-3 shadow-xl">
-            <ul className="space-y-0.5">
-              {nav
-                .flatMap((item) =>
-                  item.children
-                    ? item.children.map((c) => ({ label: `${item.label}: ${c.label}`, href: c.href }))
-                    : [{ label: item.label, href: item.href! }],
-                )
-                .map((l) => (
-                  <li key={l.label}>
-                    <Link href={l.href} className="block rounded-lg px-3 py-2 text-sm hover:bg-accent-soft">{l.label}</Link>
+          <div className="absolute top-12 right-0 max-h-[calc(100dvh-90px)] w-[min(88vw,340px)] overflow-y-auto rounded-xl border border-line bg-surface p-3 shadow-xl">
+            <nav aria-label="Menu utama">
+              {/* Direct pages first, then each group under its own heading so the list scans quickly. */}
+              <ul className="space-y-0.5">
+                {nav.filter((i) => !i.children).map((i) => (
+                  <li key={i.label}>
+                    <Link
+                      href={i.href!}
+                      aria-current={i.label === active ? "page" : undefined}
+                      className={`block rounded-lg px-3 py-2 text-[15px] font-medium hover:bg-accent-soft ${i.label === active ? "bg-accent-soft text-accent" : ""}`}
+                    >
+                      {i.label}
+                    </Link>
                   </li>
                 ))}
-            </ul>
+              </ul>
+              {nav.filter((i) => i.children).map((g) => (
+                <div key={g.label} className="mt-2 border-t border-line pt-2">
+                  <p className={`px-3 py-1 text-xs font-semibold tracking-wide uppercase ${g.label === active ? "text-accent" : "text-muted"}`}>{g.label}</p>
+                  <ul className="space-y-0.5">
+                    {g.children!.map((c) => (
+                      <li key={c.label}>
+                        <Link href={c.href} className="block rounded-lg px-3 py-2 text-sm hover:bg-accent-soft">{c.label}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </nav>
             <div className="mt-3 grid grid-cols-2 gap-2 border-t border-line pt-3">
               <Link href="/masuk" className="rounded-lg border border-line px-3 py-2 text-center text-sm font-semibold">Masuk</Link>
               <Link href="/daftar" className="rounded-lg bg-accent px-3 py-2 text-center text-sm font-semibold text-surface">Daftar Gratis</Link>

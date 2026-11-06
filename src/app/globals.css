@@ -19,6 +19,18 @@
   --danger-soft: #fde4e4;
   --ok: #15803d;
   --ok-soft: #dcf3e3;
+
+  /* Fixed in both themes: the sign-in backdrop and code blocks are always dark, WhatsApp green is its brand colour. */
+  --brand-deep: #2a1590;
+  --brand-mid: #4a2fd0;
+  --brand-light: #6344dc;
+  --brand-tint: #cfc3ff;
+  --whatsapp: #25d366;
+  --code-bg: #17152b;
+  --code-ink: #ecebf8;
+  --code-muted: #6f6b93;
+  --code-string: #f5d76e;
+  --code-key: #c4a8ff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -44,6 +56,13 @@
 }
 
 @theme inline {
+  --color-brand-tint: var(--brand-tint);
+  --color-whatsapp: var(--whatsapp);
+  --color-code-bg: var(--code-bg);
+  --color-code-ink: var(--code-ink);
+  --color-code-muted: var(--code-muted);
+  --color-code-string: var(--code-string);
+  --color-code-key: var(--code-key);
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
@@ -74,4 +93,16 @@ body {
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+/* Respect the OS "reduce motion" setting: no animations, transitions, or smooth scrolling. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
